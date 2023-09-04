@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Ban, Flag, Plus } from 'lucide-react'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from './ui/button'
@@ -195,18 +195,16 @@ export function FormCreateTask() {
 
                     <SelectContent>
                       {taskPriorities.map((priority) => (
-                        <>
+                        <Fragment key={priority.value}>
                           {priority.value === '' && <Separator />}
-                          <SelectItem
-                            value={priority.value}
-                            key={priority.value}
-                          >
+
+                          <SelectItem value={priority.value}>
                             <span className="flex items-center gap-3">
                               {priority.icon}
                               {priority.text}
                             </span>
                           </SelectItem>
-                        </>
+                        </Fragment>
                       ))}
                     </SelectContent>
                   </Select>
