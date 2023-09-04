@@ -2,7 +2,7 @@ import { ButtonToggleTheme } from '@/components/ButtonToggleTheme'
 import { FormCreateTask } from '@/components/FormCreateTask'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { CheckCheck } from 'lucide-react'
+import { CheckCheck, ClipboardList } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -23,7 +23,7 @@ export default function Home() {
         <FormCreateTask />
 
         <section className="mt-8 flex flex-col">
-          <div className="flex justify-between">
+          <div className="flex flex-col justify-between gap-5 sm:flex-row">
             <span className="flex items-center gap-3 font-medium text-primary">
               Tarefas criadas
               <Badge variant="secondary">0</Badge>
@@ -34,8 +34,20 @@ export default function Home() {
               <Badge variant="secondary">0</Badge>
             </span>
           </div>
+        </section>
 
-          <Separator className="mt-4" />
+        <Separator className="mb-12 mt-4" />
+
+        <section className="flex flex-col items-center">
+          <ClipboardList className="mb-6 h-16 w-16 text-muted-foreground" />
+
+          <span className="text-center text-sm font-semibold text-muted-foreground md:text-lg">
+            Você ainda não tem tarefas cadastradas
+          </span>
+
+          <span className="text-center text-sm text-muted-foreground md:text-lg">
+            Crie tarefas e organize seus itens a fazer
+          </span>
         </section>
       </div>
     </main>
