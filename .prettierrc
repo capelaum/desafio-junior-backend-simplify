@@ -7,5 +7,5 @@
   "semi": false,
   "endOfLine": "auto",
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindFunctions": ["cva"]
+  "tailwindFunctions": ["clsx"]
 }
