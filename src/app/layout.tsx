@@ -9,8 +9,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Simplify Todo',
-  description: 'Simplify Todo'
+  title: 'Simplify Tarefas',
+  description: 'Simplify Tarefas'
 }
 
 export default function RootLayout({

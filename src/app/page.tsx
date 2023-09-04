@@ -18,18 +18,27 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CheckCheck, Plus } from 'lucide-react'
+import { Ban, CheckCheck, Flag, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-const FormSchema = z.object({
+const CreateTaskFormSchema = z.object({
   title: z
     .string({
       required_error: 'Título é obrigatório',
-      invalid_type_error: 'Título da tarefa deve ser um texto.'
+      invalid_type_error: 'Título da tarefa deve ser um texto'
     })
     .trim()
     .min(2, {
@@ -37,27 +46,44 @@ const FormSchema = z.object({
     })
     .max(100, {
       message: 'Título deve ter no máximo 100 caracteres'
+    }),
+  description: z
+    .string({
+      required_error: 'Descrição é obrigatória',
+      invalid_type_error: 'Descrição da tarefa deve ser um texto'
     })
+    .trim()
+    .min(2, {
+      message: 'Descrição deve ter no mínimo 2 caracteres'
+    })
+    .max(1000, {
+      message: 'Descrição deve ter no máximo 1000 caracteres'
+    }),
+  priority: z
+    .string({
+      invalid_type_error: 'Prioridade da tarefa deve ser um texto'
+    })
+    .optional()
 })
 
 export default function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { toast } = useToast()
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof CreateTaskFormSchema>>({
+    resolver: zodResolver(CreateTaskFormSchema),
     defaultValues: {
-      title: ''
-    },
-    mode: 'onChange',
-    reValidateMode: 'onChange'
+      title: '',
+      description: '',
+      priority: undefined
+    }
   })
 
-  const { watch, reset } = form
+  const { watch, reset, setValue } = form
 
-  const isDisabled = !watch('title')
+  const isDisabled = !watch('title') || !watch('description')
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof CreateTaskFormSchema>) {
     toast({
       title: 'You submitted the following values:',
       description: (
@@ -76,7 +102,7 @@ export default function Home() {
       <div className="relative flex items-center justify-center border-b border-b-slate-700 py-20">
         <h1 className="flex scroll-m-20 items-center gap-3 text-3xl font-extrabold tracking-tight lg:text-4xl">
           <CheckCheck className="h-8 w-8" />
-          Symplify Todo
+          Symplify Tarefas
         </h1>
         <div className="absolute right-4 top-4 z-10">
           <ButtonToggleTheme />
@@ -86,7 +112,7 @@ export default function Home() {
       <div className="container py-6">
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline" onClick={() => setIsDialogOpen(true)}>
+            <Button variant="default" onClick={() => setIsDialogOpen(true)}>
               <Plus className="mr-2 h-4 w-4" />
               Criar tarefa
             </Button>
@@ -96,27 +122,106 @@ export default function Home() {
             <DialogHeader>
               <DialogTitle>Criar nova tarefa</DialogTitle>
             </DialogHeader>
+
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="w-2/3 space-y-6"
+                className="w-full space-y-6"
               >
                 <FormField
                   control={form.control}
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Título da tarefa*</FormLabel>
+                      <FormLabel>Título*</FormLabel>
                       <FormControl>
-                        <Input placeholder="Título" {...field} />
+                        <Input placeholder="Título da tarefa" {...field} />
                       </FormControl>
 
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Descrição*</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          className="max-h-[400px] min-h-[100px]"
+                          placeholder="Descrição da tarefa"
+                          {...field}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="priority"
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormLabel>Prioridade</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione uma prioridade" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="urgent">
+                            <span className="flex items-center gap-3">
+                              <Flag className="h-4 w-4 text-red-500" />
+                              Urgente
+                            </span>
+                          </SelectItem>
+
+                          <SelectItem value="high">
+                            <span className="flex items-center gap-3">
+                              <Flag className="h-4 w-4 text-yellow-500" />
+                              Alta
+                            </span>
+                          </SelectItem>
+
+                          <SelectItem value="normal">
+                            <span className="flex items-center gap-3">
+                              <Flag className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
+                              Normal
+                            </span>
+                          </SelectItem>
+
+                          <SelectItem value="low">
+                            <span className="flex items-center gap-3">
+                              <Flag className="h-4 w-4 text-gray-500 dark:text-gray-200" />
+                              Baixa
+                            </span>
+                          </SelectItem>
+
+                          <SelectSeparator />
+
+                          <SelectItem value="">
+                            <span className="flex items-center gap-3">
+                              <Ban className="h-4 w-4 text-gray-400" />
+                              Nenhuma
+                            </span>
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+
                 <Button type="submit" disabled={isDisabled}>
-                  Submit
+                  Criar tarefa
                 </Button>
               </form>
             </Form>
