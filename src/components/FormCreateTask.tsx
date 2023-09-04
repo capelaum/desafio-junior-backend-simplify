@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { Ban, Flag, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -30,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue
 } from './ui/select'
+import { Separator } from './ui/separator'
 import { Textarea } from './ui/textarea'
 import { useToast } from './ui/use-toast'
 
@@ -195,12 +195,18 @@ export function FormCreateTask() {
 
                     <SelectContent>
                       {taskPriorities.map((priority) => (
-                        <SelectItem value={priority.value} key={priority.value}>
-                          <span className="flex items-center gap-3">
-                            {priority.icon}
-                            {priority.text}
-                          </span>
-                        </SelectItem>
+                        <>
+                          {priority.value === '' && <Separator />}
+                          <SelectItem
+                            value={priority.value}
+                            key={priority.value}
+                          >
+                            <span className="flex items-center gap-3">
+                              {priority.icon}
+                              {priority.text}
+                            </span>
+                          </SelectItem>
+                        </>
                       ))}
                     </SelectContent>
                   </Select>
