@@ -27,12 +27,39 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectSeparator,
   SelectTrigger,
   SelectValue
 } from './ui/select'
 import { Textarea } from './ui/textarea'
 import { useToast } from './ui/use-toast'
+
+const taskPriorities = [
+  {
+    value: 'urgent',
+    text: 'Urgente',
+    icon: <Flag className="h-4 w-4 text-red-500" />
+  },
+  {
+    value: 'high',
+    text: 'Alta',
+    icon: <Flag className="h-4 w-4 text-yellow-500" />
+  },
+  {
+    value: 'normal',
+    text: 'Normal',
+    icon: <Flag className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
+  },
+  {
+    value: 'low',
+    text: 'Baixa',
+    icon: <Flag className="h-4 w-4 text-gray-500 dark:text-gray-200" />
+  },
+  {
+    value: '',
+    text: 'Nenhuma',
+    icon: <Ban className="h-4 w-4 text-gray-400" />
+  }
+]
 
 const CreateTaskFormSchema = z.object({
   title: z
@@ -153,7 +180,7 @@ export function FormCreateTask() {
             <FormField
               control={form.control}
               name="priority"
-              render={({ field, fieldState }) => (
+              render={({ field }) => (
                 <FormItem>
                   <FormLabel>Prioridade</FormLabel>
                   <Select
@@ -167,42 +194,14 @@ export function FormCreateTask() {
                     </FormControl>
 
                     <SelectContent>
-                      <SelectItem value="urgent">
-                        <span className="flex items-center gap-3">
-                          <Flag className="h-4 w-4 text-red-500" />
-                          Urgente
-                        </span>
-                      </SelectItem>
-
-                      <SelectItem value="high">
-                        <span className="flex items-center gap-3">
-                          <Flag className="h-4 w-4 text-yellow-500" />
-                          Alta
-                        </span>
-                      </SelectItem>
-
-                      <SelectItem value="normal">
-                        <span className="flex items-center gap-3">
-                          <Flag className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
-                          Normal
-                        </span>
-                      </SelectItem>
-
-                      <SelectItem value="low">
-                        <span className="flex items-center gap-3">
-                          <Flag className="h-4 w-4 text-gray-500 dark:text-gray-200" />
-                          Baixa
-                        </span>
-                      </SelectItem>
-
-                      <SelectSeparator />
-
-                      <SelectItem value="">
-                        <span className="flex items-center gap-3">
-                          <Ban className="h-4 w-4 text-gray-400" />
-                          Nenhuma
-                        </span>
-                      </SelectItem>
+                      {taskPriorities.map((priority) => (
+                        <SelectItem value={priority.value} key={priority.value}>
+                          <span className="flex items-center gap-3">
+                            {priority.icon}
+                            {priority.text}
+                          </span>
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormItem>
