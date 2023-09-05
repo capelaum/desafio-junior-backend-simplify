@@ -2,14 +2,14 @@ import { AvatarProfile } from '@/components/AvatarProfile'
 import { ButtonSignIn } from '@/components/ButtonSignIn'
 import { ButtonToggleTheme } from '@/components/ButtonToggleTheme'
 import { FormCreateTask } from '@/components/FormCreateTask'
-import { TaskItem } from '@/components/TaskItem'
-import { Badge } from '@/components/ui/badge'
+import { TaskList } from '@/components/TaskList'
 import { Separator } from '@/components/ui/separator'
 import { getAuthSession } from '@/lib/auth'
-import { CheckCheck } from 'lucide-react'
+import { CheckCheck, LogIn } from 'lucide-react'
 
 export default async function Home() {
   const session = await getAuthSession()
+  console.log('💥 ~ session:', session)
 
   return (
     <main className="min-h-screen">
@@ -37,39 +37,21 @@ export default async function Home() {
           )}
         </div>
 
-        <section className="mt-8 flex flex-col">
-          <div className="flex flex-col justify-between gap-5 sm:flex-row">
-            <span className="flex items-center gap-3 font-medium text-violet-500 dark:text-violet-400">
-              Tarefas criadas
-              <Badge variant="secondary">0</Badge>
+        {!session && (
+          <section className="mt-12 flex flex-col items-center">
+            <LogIn className="mb-6 h-16 w-16 text-muted-foreground" />
+
+            <span className="text-center text-sm font-semibold text-muted-foreground md:text-lg">
+              Faça login para gerenciar suas tarefas
             </span>
 
-            <span className="flex items-center gap-3 font-medium text-violet-500 dark:text-violet-400">
-              Concluídas
-              <Badge variant="secondary">0</Badge>
+            <span className="text-center text-sm text-muted-foreground md:text-lg">
+              Você pode fazer login com sua conta do github
             </span>
-          </div>
-        </section>
+          </section>
+        )}
 
-        <Separator className="mt-4" />
-
-        {/* <section className="mt-12 flex flex-col items-center">
-          <ClipboardList className="mb-6 h-16 w-16 text-muted-foreground" />
-
-          <span className="text-center text-sm font-semibold text-muted-foreground md:text-lg">
-            Você ainda não tem tarefas cadastradas
-          </span>
-
-          <span className="text-center text-sm text-muted-foreground md:text-lg">
-            Crie tarefas e organize seus itens a fazer
-          </span>
-        </section> */}
-
-        <section className="mt-6 flex flex-col items-center gap-2">
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-        </section>
+        {session && <TaskList session={session} />}
       </div>
     </main>
   )
