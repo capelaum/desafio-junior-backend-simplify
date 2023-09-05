@@ -1,43 +1,15 @@
-'use client'
-
+import { AvatarProfile } from '@/components/AvatarProfile'
+import { ButtonSignIn } from '@/components/ButtonSignIn'
 import { ButtonToggleTheme } from '@/components/ButtonToggleTheme'
 import { FormCreateTask } from '@/components/FormCreateTask'
 import { TaskItem } from '@/components/TaskItem'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { toast } from '@/components/ui/use-toast'
-import { CheckCheck, Github } from 'lucide-react'
-import { signIn, useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { getAuthSession } from '@/lib/auth'
+import { CheckCheck } from 'lucide-react'
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(false)
-
-  const { data: session, status } = useSession()
-  console.log('💥 ~ status:', status)
-  console.log('💥 ~ session:', session)
-
-  const handleLogin = async () => {
-    setIsLoading(true)
-
-    try {
-      await signIn('github')
-
-      toast({
-        title: 'Login realizado com sucesso!',
-        description: 'Seja bem-vindo ao Simplify ToDo'
-      })
-    } catch (error) {
-      console.log('💥 ~ error:', error)
-      toast({
-        title: 'Error',
-        description: `Ocorreu um erro ao fazer login com o github `
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
+export default async function Home() {
+  const session = await getAuthSession()
 
   return (
     <main className="min-h-screen">
@@ -55,17 +27,14 @@ export default function Home() {
 
       <div className="container py-6">
         <div className="flex flex-col justify-between gap-4 sm:flex-row">
-          <Button
-            variant="outline"
-            title="Entrar com Github"
-            onClick={handleLogin}
-            disabled={isLoading}
-          >
-            <Github className="mr-2 h-5 w-5" />
-            Entrar com Github
-          </Button>
-
-          <FormCreateTask />
+          {session ? (
+            <>
+              <AvatarProfile session={session} />
+              <FormCreateTask />
+            </>
+          ) : (
+            <ButtonSignIn />
+          )}
         </div>
 
         <section className="mt-8 flex flex-col">

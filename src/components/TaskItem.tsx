@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { Flag, PenSquare, Trash2 } from 'lucide-react'
 import { useState } from 'react'
