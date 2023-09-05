@@ -62,24 +62,14 @@ export async function createTask({
   description,
   priority
 }: CreateTaskData) {
-  try {
-    const createdTask = await db.task.create({
-      data: {
-        user_id: userId,
-        title,
-        description,
-        priority: priority ?? null
-      }
-    })
-
-    return { createdTask }
-  } catch (error) {
-    console.log('💥 ~ error:', error)
-
-    return {
-      error,
-      message: 'Could not create task',
-      status: 500
+  const createdTask = await db.task.create({
+    data: {
+      user_id: userId,
+      title,
+      description,
+      priority: priority ?? null
     }
-  }
+  })
+
+  return { createdTask }
 }

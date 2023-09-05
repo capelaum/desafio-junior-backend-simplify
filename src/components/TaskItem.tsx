@@ -76,7 +76,7 @@ export function TaskItem({ task }: TaskItemProps) {
 
           <label
             htmlFor={task.id}
-            className="text-lg font-medium leading-snug hover:cursor-pointer peer-data-[state='checked']:line-through"
+            className="text-md font-medium leading-none hover:cursor-pointer peer-data-[state='checked']:line-through"
           >
             {task.title}
           </label>

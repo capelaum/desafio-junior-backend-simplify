@@ -88,7 +88,19 @@ const createTaskFormSchema = z.object({
     .max(1000, {
       message: 'Descrição deve ter no máximo 1000 caracteres'
     }),
-  priority: z.enum(['URGENT', 'HIGH', 'NORMAL', 'LOW']).optional()
+  priority: z
+    .enum(['URGENT', 'HIGH', 'NORMAL', 'LOW', ''], {
+      invalid_type_error: 'Prioridade inválida',
+      required_error: 'Prioridade inválida'
+    })
+    .optional()
+    .transform((value) => {
+      if (value === '') {
+        return undefined
+      }
+
+      return value
+    })
 })
 
 type CreateTaskFormSchema = z.infer<typeof createTaskFormSchema>
@@ -115,28 +127,33 @@ export function FormCreateTask({ session }: FormCreateTaskProps) {
   const isDisabled = !watch('title') || !watch('description')
 
   async function onSubmit(data: CreateTaskFormSchema) {
-    const { title, description, priority } = data
+    try {
+      const { title, description, priority } = data
 
-    const response = await api.post('/tasks', {
-      userId: session.user.id,
-      title,
-      description,
-      priority
-    })
+      const response = await api.post('/tasks', {
+        userId: session.user.id,
+        title,
+        description,
+        priority
+      })
 
-    console.log('💥 ~ response:', response)
+      if (response.status === 201) {
+        toast({
+          title: '✅ Tarefa criada com sucesso!'
+        })
 
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      )
-    })
+        reset()
+        setIsDialogOpen(false)
+      }
+    } catch (error) {
+      console.error('💥 ~ error:', error)
 
-    reset()
-    setIsDialogOpen(false)
+      toast({
+        title: '❌ Ocorreu um erro ao criar a tarefa',
+        description: 'Por favor tente novamente mais tarde',
+        variant: 'destructive'
+      })
+    }
   }
 
   return (
@@ -223,6 +240,8 @@ export function FormCreateTask({ session }: FormCreateTaskProps) {
                       ))}
                     </SelectContent>
                   </Select>
+
+                  <FormMessage />
                 </FormItem>
               )}
             />
