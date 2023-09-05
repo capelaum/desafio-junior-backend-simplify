@@ -9,7 +9,6 @@ import { CheckCheck, LogIn } from 'lucide-react'
 
 export default async function Home() {
   const session = await getAuthSession()
-  console.log('💥 ~ session:', session)
 
   return (
     <main className="min-h-screen">
@@ -30,7 +29,7 @@ export default async function Home() {
           {session ? (
             <>
               <AvatarProfile session={session} />
-              <FormCreateTask />
+              <FormCreateTask session={session} />
             </>
           ) : (
             <ButtonSignIn />

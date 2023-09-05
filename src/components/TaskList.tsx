@@ -1,4 +1,4 @@
-import { fetchTasks } from '@/lib/api'
+import { fetchTasks } from '@/lib/tasks/api'
 import { ClipboardList } from 'lucide-react'
 import { Session } from 'next-auth'
 import { TaskItem } from './TaskItem'
@@ -46,7 +46,7 @@ export async function TaskList({ session }: TaskListProps) {
       )}
 
       <section className="mt-6 flex flex-col items-center gap-2">
-        {tasks?.map((task) => <TaskItem key={task.id} />)}
+        {tasks?.map((task) => <TaskItem key={task.id} task={task} />)}
       </section>
     </>
   )

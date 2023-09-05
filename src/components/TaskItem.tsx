@@ -23,7 +23,40 @@ import {
   TooltipTrigger
 } from './ui/tooltip'
 
-export function TaskItem() {
+const priorities = {
+  URGENT: {
+    text: 'Urgente',
+    color: 'text-red-500'
+  },
+  HIGH: {
+    text: 'Alta',
+    color: 'text-yellow-500'
+  },
+  NORMAL: {
+    text: 'Normal',
+    color: 'text-cyan-600 dark:text-cyan-400'
+  },
+  LOW: {
+    text: 'Urgente',
+    color: 'text-gray-500 dark:text-gray-200'
+  }
+}
+
+type Priority = 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW'
+
+type Task = {
+  id: string
+  title: string
+  description: string
+  done: boolean
+  priority?: Priority | null
+}
+
+interface TaskItemProps {
+  task: Task
+}
+
+export function TaskItem({ task }: TaskItemProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
@@ -39,26 +72,35 @@ export function TaskItem() {
           className="peer flex items-center gap-3"
           onClick={(e) => e.stopPropagation()}
         >
-          <Checkbox id="1" />
+          <Checkbox id={task.id} checked={task.done} />
 
           <label
-            htmlFor="1"
+            htmlFor={task.id}
             className="text-lg font-medium leading-snug hover:cursor-pointer peer-data-[state='checked']:line-through"
           >
-            Título da Tarefa
+            {task.title}
           </label>
         </div>
 
         <div className="flex items-center gap-1 rounded-md">
-          <TooltipProvider>
-            <Tooltip delayDuration={200}>
-              <TooltipTrigger asChild>
-                <Flag className="mr-2 h-4 w-4 text-yellow-500" />
-              </TooltipTrigger>
+          {task.priority && (
+            <TooltipProvider>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <Flag
+                    className={cn(
+                      'mr-2 h-4 w-4',
+                      priorities[task.priority].color
+                    )}
+                  />
+                </TooltipTrigger>
 
-              <TooltipContent>Alta</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+                <TooltipContent>
+                  {priorities[task.priority].text}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
 
           <Button
             variant="ghost"
@@ -110,7 +152,9 @@ export function TaskItem() {
           isExpanded && 'mt-4 h-full opacity-100'
         )}
       >
-        <p className="text-muted-foreground">Minha Descrição</p>
+        <p className="whitespace-pre-line text-muted-foreground">
+          {task.description}
+        </p>
       </div>
     </div>
   )

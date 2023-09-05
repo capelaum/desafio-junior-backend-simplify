@@ -1,7 +1,9 @@
 'use client'
 
+import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Ban, Flag, Plus } from 'lucide-react'
+import { Session } from 'next-auth'
 import { Fragment, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -35,22 +37,22 @@ import { useToast } from './ui/use-toast'
 
 const taskPriorities = [
   {
-    value: 'urgent',
+    value: 'URGENT',
     text: 'Urgente',
     icon: <Flag className="h-4 w-4 text-red-500" />
   },
   {
-    value: 'high',
+    value: 'HIGH',
     text: 'Alta',
     icon: <Flag className="h-4 w-4 text-yellow-500" />
   },
   {
-    value: 'normal',
+    value: 'NORMAL',
     text: 'Normal',
     icon: <Flag className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
   },
   {
-    value: 'low',
+    value: 'LOW',
     text: 'Baixa',
     icon: <Flag className="h-4 w-4 text-gray-500 dark:text-gray-200" />
   },
@@ -86,16 +88,16 @@ const createTaskFormSchema = z.object({
     .max(1000, {
       message: 'Descrição deve ter no máximo 1000 caracteres'
     }),
-  priority: z
-    .string({
-      invalid_type_error: 'Prioridade da tarefa deve ser um texto'
-    })
-    .optional()
+  priority: z.enum(['URGENT', 'HIGH', 'NORMAL', 'LOW']).optional()
 })
 
 type CreateTaskFormSchema = z.infer<typeof createTaskFormSchema>
 
-export function FormCreateTask() {
+interface FormCreateTaskProps {
+  session: Session
+}
+
+export function FormCreateTask({ session }: FormCreateTaskProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { toast } = useToast()
 
@@ -112,7 +114,18 @@ export function FormCreateTask() {
 
   const isDisabled = !watch('title') || !watch('description')
 
-  function onSubmit(data: CreateTaskFormSchema) {
+  async function onSubmit(data: CreateTaskFormSchema) {
+    const { title, description, priority } = data
+
+    const response = await api.post('/tasks', {
+      userId: session.user.id,
+      title,
+      description,
+      priority
+    })
+
+    console.log('💥 ~ response:', response)
+
     toast({
       title: 'You submitted the following values:',
       description: (
