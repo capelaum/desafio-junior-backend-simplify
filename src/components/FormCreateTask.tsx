@@ -61,7 +61,7 @@ const taskPriorities = [
   }
 ]
 
-const CreateTaskFormSchema = z.object({
+const createTaskFormSchema = z.object({
   title: z
     .string({
       required_error: 'Título é obrigatório',
@@ -93,12 +93,14 @@ const CreateTaskFormSchema = z.object({
     .optional()
 })
 
+type CreateTaskFormSchema = z.infer<typeof createTaskFormSchema>
+
 export function FormCreateTask() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { toast } = useToast()
 
-  const form = useForm<z.infer<typeof CreateTaskFormSchema>>({
-    resolver: zodResolver(CreateTaskFormSchema),
+  const form = useForm<CreateTaskFormSchema>({
+    resolver: zodResolver(createTaskFormSchema),
     defaultValues: {
       title: '',
       description: '',
@@ -110,7 +112,7 @@ export function FormCreateTask() {
 
   const isDisabled = !watch('title') || !watch('description')
 
-  function onSubmit(data: z.infer<typeof CreateTaskFormSchema>) {
+  function onSubmit(data: CreateTaskFormSchema) {
     toast({
       title: 'You submitted the following values:',
       description: (
