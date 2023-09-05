@@ -12,7 +12,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        inter: ['var(--font-inter)']
+        roboto: ['var(--font-roboto)', 'sans-serif']
       },
       colors: {
         border: 'hsl(var(--border))',

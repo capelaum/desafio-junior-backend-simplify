@@ -1,12 +1,28 @@
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import Providers from './providers'
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter'
+const roboto = localFont({
+  src: [
+    {
+      path: '../assets/fonts/Roboto-Regular.ttf',
+      weight: '400',
+      style: 'normal'
+    },
+    {
+      path: '../assets/fonts/Roboto-Medium.ttf',
+      weight: '400',
+      style: 'medium'
+    },
+    {
+      path: '../assets/fonts/Roboto-Bold.ttf',
+      weight: '700',
+      style: 'bold'
+    }
+  ],
+  variable: '--font-roboto',
+  display: 'swap'
 })
 
 export const metadata: Metadata = {
@@ -20,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR" className={inter.variable}>
+    <html lang="pt-BR" className={roboto.variable}>
       <body>
         <Providers>{children}</Providers>
       </body>

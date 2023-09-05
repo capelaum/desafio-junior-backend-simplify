@@ -3,6 +3,7 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
+import { Label } from '../ui/label'
 import { TaskItemActions } from './TaskItemActions'
 
 type Priority = 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW' | null
@@ -37,12 +38,12 @@ export function TaskItem({ task }: TaskItemProps) {
         >
           <Checkbox id={task.id} checked={task.done} />
 
-          <label
+          <Label
             htmlFor={task.id}
-            className="text-md font-medium leading-none hover:cursor-pointer peer-data-[state='checked']:line-through"
+            className="text-md pt-0.5 hover:cursor-pointer peer-data-[state='checked']:line-through"
           >
             {task.title}
-          </label>
+          </Label>
         </div>
 
         <TaskItemActions priority={task.priority} />
@@ -54,7 +55,7 @@ export function TaskItem({ task }: TaskItemProps) {
           isExpanded && 'mt-4 h-full opacity-100'
         )}
       >
-        <p className="whitespace-pre-line text-muted-foreground">
+        <p className="whitespace-pre-line leading-relaxed text-muted-foreground">
           {task.description}
         </p>
       </div>
