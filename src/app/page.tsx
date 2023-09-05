@@ -53,7 +53,9 @@ export default function Home() {
           </span>
         </section> */}
 
-        <section className="mt-6 flex flex-col items-center">
+        <section className="mt-6 flex flex-col items-center gap-2">
+          <TaskItem />
+          <TaskItem />
           <TaskItem />
         </section>
       </div>

@@ -49,7 +49,7 @@ export function TaskItem() {
 
         <div className="flex items-center gap-1 rounded-md">
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
                 <Flag className="mr-2 h-4 w-4 text-yellow-500" />
               </TooltipTrigger>
