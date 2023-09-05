@@ -4,15 +4,8 @@ import { ButtonToggleTheme } from '@/components/ButtonToggleTheme'
 import { FormCreateTask } from '@/components/FormCreateTask'
 import { TaskItem } from '@/components/TaskItem'
 import { Badge } from '@/components/ui/badge'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle
-} from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
-import { CheckCheck, Flag } from 'lucide-react'
+import { CheckCheck } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -61,23 +54,7 @@ export default function Home() {
         </section> */}
 
         <section className="mt-6 flex flex-col items-center">
-          <Dialog>
-            <TaskItem />
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Título da Tarefa</DialogTitle>
-                <DialogDescription className="flex items-center gap-3 pt-3">
-                  <Flag className="h-5 w-5 text-yellow-500" />
-                  Alta
-                </DialogDescription>
-              </DialogHeader>
-
-              <p className="text-md font-normal text-muted-foreground">
-                A Descrição da tarefa
-              </p>
-            </DialogContent>
-          </Dialog>
+          <TaskItem />
         </section>
       </div>
     </main>
