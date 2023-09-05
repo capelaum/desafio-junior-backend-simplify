@@ -1,6 +1,17 @@
 import { cn } from '@/lib/utils'
 import { Flag, PenSquare, Trash2 } from 'lucide-react'
 import { useState } from 'react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from './ui/alert-dialog'
 import { Button } from './ui/button'
 import { Checkbox } from './ui/checkbox'
 import {
@@ -43,7 +54,7 @@ export function TaskItem() {
                 <Flag className="mr-2 h-4 w-4 text-yellow-500" />
               </TooltipTrigger>
 
-              <TooltipContent sideOffset={5}>Alta</TooltipContent>
+              <TooltipContent>Alta</TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
@@ -56,14 +67,38 @@ export function TaskItem() {
             <PenSquare className="h-4 w-4 text-gray-600 dark:text-gray-400" />
           </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            title="Excluir"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Trash2 className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                title="Excluir"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Trash2 className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+              </Button>
+            </AlertDialogTrigger>
+
+            <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Tem certeza que quer excluir essa tarefa?
+                </AlertDialogTitle>
+
+                <AlertDialogDescription>
+                  Essa ação é irreversível, sua tarefa será excluída
+                  permanentemente e portanto não poderá ser recuperada.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction variant="destructive">
+                  Sim, Excluir
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
 
