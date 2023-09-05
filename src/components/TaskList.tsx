@@ -11,7 +11,6 @@ interface TaskListProps {
 
 export async function TaskList({ session }: TaskListProps) {
   const { tasks, numberOfCompletedTasks } = await fetchTasks(session)
-  // console.log('💥 ~ tasks:', tasks)
 
   return (
     <>
