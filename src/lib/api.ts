@@ -19,7 +19,15 @@ export async function fetchTasks(session: Session) {
       }
     })
 
-    return { tasks }
+    const numberOfCompletedTasks = tasks.reduce((sum, task) => {
+      if (task.done) {
+        sum += 1
+      }
+
+      return sum
+    }, 0)
+
+    return { tasks, numberOfCompletedTasks }
   } catch (error) {
     console.log('💥 ~ error:', error)
 

@@ -10,7 +10,7 @@ interface TaskListProps {
 }
 
 export async function TaskList({ session }: TaskListProps) {
-  const { tasks } = await fetchTasks(session)
+  const { tasks, numberOfCompletedTasks } = await fetchTasks(session)
   console.log('💥 ~ tasks:', tasks)
 
   return (
@@ -19,12 +19,12 @@ export async function TaskList({ session }: TaskListProps) {
         <div className="flex flex-col justify-between gap-5 sm:flex-row">
           <span className="flex items-center gap-3 font-medium text-violet-500 dark:text-violet-400">
             Tarefas criadas
-            <Badge variant="secondary">0</Badge>
+            <Badge variant="secondary">{tasks?.length ?? 0}</Badge>
           </span>
 
           <span className="flex items-center gap-3 font-medium text-violet-500 dark:text-violet-400">
             Concluídas
-            <Badge variant="secondary">0</Badge>
+            <Badge variant="secondary">{numberOfCompletedTasks ?? 0}</Badge>
           </span>
         </div>
       </section>
