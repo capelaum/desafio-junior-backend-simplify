@@ -1,14 +1,11 @@
-import { Session } from 'next-auth'
 import { db } from '../db'
 
-export async function fetchTasks(session: Session) {
+export async function fetchTasks(userId: string) {
   try {
-    const { user } = session
-
     const tasks = (
       await db.task.findMany({
         where: {
-          user_id: user.id
+          user_id: userId
         },
         orderBy: {
           created_at: 'desc'
