@@ -26,7 +26,13 @@ export function AlertDialogDeleteTask({ taskId }: AlertDialogDeleteTaskProps) {
       await deleteTaskMutation.mutateAsync(taskId)
 
       toast({
-        title: '✅ Tarefa excluída com sucesso!'
+        title: 'Tarefa excluída!',
+        description: (
+          <div className="mt-2 flex items-center gap-2 ">
+            <Trash2 className="h-4 w-4 text-destructive" />
+            <span className="leading-none">Ta na lixeira...</span>
+          </div>
+        )
       })
     } catch (error) {
       console.error('💥 ~ error:', error)

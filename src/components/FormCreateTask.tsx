@@ -5,7 +5,7 @@ import { taskPrioritiesSelect } from '@/lib/tasks/data'
 import { TaskFormSchema, taskFormSchema } from '@/lib/tasks/schemas'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Flag, FlagOff, Plus } from 'lucide-react'
+import { CheckCircle, Flag, FlagOff, Plus } from 'lucide-react'
 import { Fragment, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from './ui/button'
@@ -68,7 +68,13 @@ export function FormCreateTask() {
       })
 
       toast({
-        title: '✅ Tarefa criada com sucesso!'
+        title: 'Tarefa criada!',
+        description: (
+          <div className="mt-2 flex items-center gap-2 ">
+            <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-500" />
+            <span className="leading-none">Prontinho</span>
+          </div>
+        )
       })
 
       reset()

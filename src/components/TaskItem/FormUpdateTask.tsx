@@ -6,7 +6,7 @@ import { TaskFormSchema, taskFormSchema } from '@/lib/tasks/schemas'
 import { cn } from '@/lib/utils'
 import { Task } from '@/types/task'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Flag, FlagOff, PenSquare } from 'lucide-react'
+import { Flag, FlagOff, Info, PenSquare } from 'lucide-react'
 import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '../ui/button'
@@ -81,6 +81,16 @@ export function FormUpdateTask({ task }: FormUpdateTaskProps) {
 
       toast({
         title: '✅ Tarefa atualizada com sucesso!'
+      })
+
+      toast({
+        title: 'Tarefa atualizada!',
+        description: (
+          <div className="mt-2 flex items-center gap-2 ">
+            <Info className="h-4 w-4 text-blue-600 dark:text-blue-500" />
+            <span className="leading-none">Feito</span>
+          </div>
+        )
       })
 
       reset()
