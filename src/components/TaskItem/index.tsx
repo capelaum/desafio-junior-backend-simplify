@@ -5,7 +5,9 @@ import { cn } from '@/lib/utils'
 import { Task } from '@/types/task'
 import { useState } from 'react'
 import { Label } from '../ui/label'
-import { TaskItemActions } from './TaskItemActions'
+import { AlertDialogDeleteTask } from './AlertDialogDeleteTask'
+import { FormUpdateTask } from './FormUpdateTask'
+import { TooltipFlag } from './TooltipFlag'
 
 interface TaskItemProps {
   task: Task
@@ -37,7 +39,13 @@ export function TaskItem({ task }: TaskItemProps) {
           </Label>
         </div>
 
-        <TaskItemActions task={task} />
+        <div className="flex items-center gap-1 rounded-md">
+          {task.priority && <TooltipFlag priority={task.priority} />}
+
+          <FormUpdateTask task={task} />
+
+          <AlertDialogDeleteTask taskId={task.id} />
+        </div>
       </div>
 
       <div

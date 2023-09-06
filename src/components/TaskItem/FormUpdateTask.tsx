@@ -7,14 +7,14 @@ import { Ban, Flag, PenSquare } from 'lucide-react'
 import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from './ui/dialog'
+} from '../ui/dialog'
 import {
   Form,
   FormControl,
@@ -22,18 +22,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from './ui/form'
-import { Input } from './ui/input'
+} from '../ui/form'
+import { Input } from '../ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from './ui/select'
-import { Separator } from './ui/separator'
-import { Textarea } from './ui/textarea'
-import { useToast } from './ui/use-toast'
+} from '../ui/select'
+import { Separator } from '../ui/separator'
+import { Textarea } from '../ui/textarea'
+import { useToast } from '../ui/use-toast'
 
 const taskPriorities = [
   {
