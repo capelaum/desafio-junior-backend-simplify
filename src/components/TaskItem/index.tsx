@@ -17,7 +17,7 @@ export function TaskItem({ task }: TaskItemProps) {
   return (
     <div
       className={cn(
-        'group flex w-full flex-col rounded-lg border bg-card px-4 py-2 text-card-foreground shadow-lg transition-all duration-200 hover:cursor-pointer hover:border-violet-500',
+        'group flex w-full flex-col rounded-lg border bg-card px-4 py-2 text-card-foreground shadow-lg hover:cursor-pointer hover:border-violet-500',
         isExpanded && 'pb-4 pt-2'
       )}
       onClick={() => setIsExpanded((isExpanded) => !isExpanded)}
@@ -42,11 +42,16 @@ export function TaskItem({ task }: TaskItemProps) {
 
       <div
         className={cn(
-          'h-0 text-muted-foreground opacity-0 transition-all duration-200 sm:ml-8',
-          isExpanded && 'mt-4 h-full opacity-100'
+          'h-0 text-muted-foreground opacity-0 transition-all duration-300 ease-linear sm:ml-8 ',
+          isExpanded && 'mt-2 h-full opacity-100'
         )}
       >
-        <p className="whitespace-pre-line leading-relaxed text-muted-foreground">
+        <p
+          className={cn(
+            'h-0 whitespace-pre-line leading-relaxed text-muted-foreground opacity-0',
+            isExpanded && 'h-full opacity-100'
+          )}
+        >
           {task.description}
         </p>
       </div>
