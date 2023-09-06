@@ -1,6 +1,6 @@
 'use client'
 
-import { api } from '@/lib/api'
+import { useTaskMutations } from '@/lib/tasks/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Ban, Flag, Plus } from 'lucide-react'
 import { Fragment, useState } from 'react'
@@ -106,7 +106,10 @@ type CreateTaskFormSchema = z.infer<typeof createTaskFormSchema>
 
 export function FormCreateTask() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+
   const { toast } = useToast()
+
+  const { createTaskMutation, isTaskMutationLoading } = useTaskMutations()
 
   const form = useForm<CreateTaskFormSchema>({
     resolver: zodResolver(createTaskFormSchema),
@@ -119,26 +122,27 @@ export function FormCreateTask() {
 
   const { watch, reset } = form
 
-  const isDisabled = !watch('title') || !watch('description')
+  const isDisabled =
+    !watch('title') || !watch('description') || isTaskMutationLoading
 
   async function onSubmit(data: CreateTaskFormSchema) {
     try {
       const { title, description, priority } = data
 
-      const response = await api.post('/tasks', {
+      const response = await createTaskMutation.mutateAsync({
         title,
         description,
         priority
       })
 
-      if (response.status === 201) {
-        toast({
-          title: '✅ Tarefa criada com sucesso!'
-        })
+      console.log('💥 ~ response:', response)
 
-        reset()
-        setIsDialogOpen(false)
-      }
+      toast({
+        title: '✅ Tarefa criada com sucesso!'
+      })
+
+      reset()
+      setIsDialogOpen(false)
     } catch (error) {
       console.error('💥 ~ error:', error)
 

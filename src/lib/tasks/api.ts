@@ -1,5 +1,7 @@
+import { CreateTaskRequest } from '@/types/task'
 import { Priority } from '@prisma/client'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { api } from '../api'
 
 export type Task = {
@@ -26,4 +28,45 @@ export function useTasks() {
       return { tasks, numberOfCompletedTasks }
     }
   })
+}
+
+export function useTaskMutations() {
+  const [isTaskMutationLoading, setIsTaskMutationLoading] = useState(false)
+
+  const queryClient = useQueryClient()
+
+  const createTaskMutation = useMutation({
+    mutationFn: async ({ title, description, priority }: CreateTaskRequest) => {
+      setIsTaskMutationLoading(true)
+
+      const response = await api.post('/tasks', {
+        title,
+        description,
+        priority
+      })
+
+      if (response.status !== 201) {
+        throw new Error('Error creating task')
+      }
+
+      const { data } = response
+
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['tasks'])
+    },
+    onError: (error) => {
+      console.error('💥 ~ error:', error)
+    },
+    onSettled: () => {
+      setIsTaskMutationLoading(false)
+    }
+  })
+
+  return {
+    createTaskMutation,
+    isTaskMutationLoading,
+    setIsTaskMutationLoading
+  }
 }

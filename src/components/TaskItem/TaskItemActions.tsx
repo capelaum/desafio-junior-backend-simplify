@@ -1,7 +1,7 @@
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
+import { Task } from '@/types/task'
 import { Flag, PenSquare, Trash2 } from 'lucide-react'
-import { Task } from '.'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,8 +40,6 @@ const priorities = {
     color: 'text-gray-500 dark:text-gray-200'
   }
 }
-
-type Priority = keyof typeof priorities | null
 
 interface TaskItemActionsProps {
   task: Task

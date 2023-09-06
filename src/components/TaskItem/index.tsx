@@ -2,19 +2,10 @@
 
 import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
+import { Task } from '@/types/task'
 import { useState } from 'react'
 import { Label } from '../ui/label'
 import { TaskItemActions } from './TaskItemActions'
-
-type Priority = 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW' | null
-
-export type Task = {
-  id: string
-  title: string
-  description: string
-  done: boolean
-  priority: Priority
-}
 
 interface TaskItemProps {
   task: Task
