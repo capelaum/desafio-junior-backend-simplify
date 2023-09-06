@@ -1,72 +1,29 @@
-import { db } from '../db'
+import { Priority } from '@prisma/client'
+import { useQuery } from '@tanstack/react-query'
+import { api } from '../api'
 
-export async function fetchTasks(userId: string) {
-  try {
-    const tasks = (
-      await db.task.findMany({
-        where: {
-          user_id: userId
-        },
-        orderBy: {
-          created_at: 'desc'
-        }
-      })
-    ).map((task) => {
-      const { id, user_id, title, description, done, priority } = task
-
-      return {
-        id: id,
-        userId: user_id,
-        title,
-        description,
-        done,
-        priority
-      }
-    })
-
-    const numberOfCompletedTasks = tasks.reduce((sum, task) => {
-      if (task.done) {
-        sum += 1
-      }
-
-      return sum
-    }, 0)
-
-    return { tasks, numberOfCompletedTasks }
-  } catch (error) {
-    console.log('💥 ~ error:', error)
-
-    return {
-      error,
-      message: 'Could not fetch tasks',
-      status: 500
-    }
-  }
-}
-
-type Priority = 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW'
-
-type CreateTaskData = {
-  userId: string
+export type Task = {
+  id: string
   title: string
   description: string
-  priority?: Priority
+  done: boolean
+  priority: Priority
 }
 
-export async function createTask({
-  userId,
-  title,
-  description,
-  priority
-}: CreateTaskData) {
-  const createdTask = await db.task.create({
-    data: {
-      user_id: userId,
-      title,
-      description,
-      priority: priority ?? null
+type FetchTasksResponse = {
+  tasks: Task[]
+  numberOfCompletedTasks: number
+}
+
+export function useTasks() {
+  return useQuery({
+    queryKey: ['tasks'],
+    queryFn: async (): Promise<FetchTasksResponse> => {
+      const {
+        data: { tasks, numberOfCompletedTasks }
+      } = await api('/tasks')
+
+      return { tasks, numberOfCompletedTasks }
     }
   })
-
-  return { createdTask }
 }

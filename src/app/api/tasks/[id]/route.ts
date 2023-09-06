@@ -7,7 +7,6 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   const session = await getAuthSession()
-  console.log('💥 ~ session:', session)
   const taskId = params.id
 
   if (!session || !session.user) {
