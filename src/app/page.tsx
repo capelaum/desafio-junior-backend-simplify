@@ -28,8 +28,8 @@ export default async function Home() {
         <div className="flex flex-col justify-between gap-4 sm:flex-row">
           {session ? (
             <>
-              <AvatarProfile session={session} />
-              <FormCreateTask session={session} />
+              <AvatarProfile />
+              <FormCreateTask />
             </>
           ) : (
             <ButtonSignIn />
@@ -50,7 +50,7 @@ export default async function Home() {
           </section>
         )}
 
-        {session && <TaskList session={session} />}
+        {session && <TaskList />}
       </div>
     </main>
   )

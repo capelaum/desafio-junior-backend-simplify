@@ -3,7 +3,6 @@
 import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Ban, Flag, Plus } from 'lucide-react'
-import { Session } from 'next-auth'
 import { Fragment, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -105,11 +104,7 @@ const createTaskFormSchema = z.object({
 
 type CreateTaskFormSchema = z.infer<typeof createTaskFormSchema>
 
-interface FormCreateTaskProps {
-  session: Session
-}
-
-export function FormCreateTask({ session }: FormCreateTaskProps) {
+export function FormCreateTask() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { toast } = useToast()
 
@@ -131,7 +126,6 @@ export function FormCreateTask({ session }: FormCreateTaskProps) {
       const { title, description, priority } = data
 
       const response = await api.post('/tasks', {
-        userId: session.user.id,
         title,
         description,
         priority

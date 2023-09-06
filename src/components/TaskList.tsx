@@ -1,16 +1,13 @@
+import { getAuthSession } from '@/lib/auth'
 import { fetchTasks } from '@/lib/tasks/api'
 import { ClipboardList } from 'lucide-react'
-import { Session } from 'next-auth'
 import { TaskItem } from './TaskItem'
 import { Badge } from './ui/badge'
 import { Separator } from './ui/separator'
 
-interface TaskListProps {
-  session: Session
-}
-
-export async function TaskList({ session }: TaskListProps) {
-  const { tasks, numberOfCompletedTasks } = await fetchTasks(session.user.id)
+export async function TaskList() {
+  const session = await getAuthSession()
+  const { tasks, numberOfCompletedTasks } = await fetchTasks(session?.user?.id!)
 
   return (
     <>

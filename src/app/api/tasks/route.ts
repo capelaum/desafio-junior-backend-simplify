@@ -5,6 +5,7 @@ import { z } from 'zod'
 
 export async function GET(req: Request) {
   const session = await getAuthSession()
+  console.log('💥 ~ GET session:', session)
 
   if (!session || !session.user) {
     return NextResponse.json(
@@ -51,10 +52,6 @@ export async function GET(req: Request) {
 }
 
 const createTaskSchema = z.object({
-  userId: z.string({
-    required_error: 'ID do usuário é obrigatório',
-    invalid_type_error: 'ID do usuário deve ser um texto'
-  }),
   title: z
     .string({
       required_error: 'Título é obrigatório',
@@ -83,10 +80,22 @@ const createTaskSchema = z.object({
 })
 
 export async function POST(req: Request) {
+  const session = await getAuthSession()
+
+  if (!session || !session.user) {
+    return NextResponse.json(
+      {
+        message: 'Unauthorized'
+      },
+      {
+        status: 401
+      }
+    )
+  }
+
   const request = await req.json()
 
-  const { userId, title, description, priority } = createTaskSchema.parse({
-    userId: request.userId,
+  const { title, description, priority } = createTaskSchema.parse({
     title: request.title,
     description: request.description,
     priority: request.priority
@@ -94,7 +103,7 @@ export async function POST(req: Request) {
 
   const createdTask = await db.task.create({
     data: {
-      user_id: userId,
+      user_id: session.user.id,
       title,
       description,
       priority: priority ?? null
