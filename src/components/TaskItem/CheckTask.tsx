@@ -1,5 +1,6 @@
 import { useTaskMutations } from '@/lib/tasks/api'
 import { Task } from '@/types/task'
+import { Loader2 } from 'lucide-react'
 import { Checkbox } from '../ui/checkbox'
 import { Label } from '../ui/label'
 import { toast } from '../ui/use-toast'
@@ -33,16 +34,20 @@ export function CheckTask({ task }: CheckTasProps) {
       className="peer flex items-center gap-3"
       onClick={(e) => e.stopPropagation()}
     >
-      <Checkbox
-        id={task.id}
-        checked={task.done}
-        disabled={isTaskMutationLoading}
-        onCheckedChange={handleCheckTask}
-      />
+      {isTaskMutationLoading ? (
+        <Loader2 className="h-5 w-5 animate-spin text-primary" />
+      ) : (
+        <Checkbox
+          id={task.id}
+          checked={task.done}
+          disabled={isTaskMutationLoading}
+          onCheckedChange={handleCheckTask}
+        />
+      )}
 
       <Label
         htmlFor={task.id}
-        className="text-md pt-0.5 hover:cursor-pointer peer-data-[state='checked']:line-through"
+        className="text-md pt-0.5 transition-all duration-200 ease-in-out hover:cursor-pointer group-hover:text-violet-400 peer-data-[state='checked']:line-through"
       >
         {task.title}
       </Label>
