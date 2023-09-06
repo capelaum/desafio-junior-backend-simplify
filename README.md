@@ -72,7 +72,7 @@ GITHUB_CLIENT_ID="your_github_client_id"
 GITHUB_CLIENT_SECRET="your_github_client_secret"
 ```
 
-Para criar ambas, deve-se acessar https://github.com/settings/developers e criar um novo OAuth App, emq que deve-se colocar as seguintes URLs:
+Para criar ambas, deve-se acessar https://github.com/settings/developers e criar um novo OAuth App, com as seguintes URLs:
 
 - Homepage URL: http://localhost:3000
 - Authorization callback URL: http://localhost:3000/api/auth/callback/github
