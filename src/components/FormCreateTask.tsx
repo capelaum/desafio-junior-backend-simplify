@@ -1,11 +1,13 @@
 'use client'
 
 import { useTaskMutations } from '@/lib/tasks/api'
+import { taskPrioritiesSelect } from '@/lib/tasks/data'
+import { TaskFormSchema, taskFormSchema } from '@/lib/tasks/schemas'
+import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Ban, Flag, Plus } from 'lucide-react'
+import { Flag, FlagOff, Plus } from 'lucide-react'
 import { Fragment, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { Button } from './ui/button'
 import {
   Dialog,
@@ -34,76 +36,6 @@ import { Separator } from './ui/separator'
 import { Textarea } from './ui/textarea'
 import { useToast } from './ui/use-toast'
 
-const taskPriorities = [
-  {
-    value: 'URGENT',
-    text: 'Urgente',
-    icon: <Flag className="h-4 w-4 text-red-500" />
-  },
-  {
-    value: 'HIGH',
-    text: 'Alta',
-    icon: <Flag className="h-4 w-4 text-yellow-500" />
-  },
-  {
-    value: 'NORMAL',
-    text: 'Normal',
-    icon: <Flag className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
-  },
-  {
-    value: 'LOW',
-    text: 'Baixa',
-    icon: <Flag className="h-4 w-4 text-gray-500 dark:text-gray-200" />
-  },
-  {
-    value: '',
-    text: 'Nenhuma',
-    icon: <Ban className="h-4 w-4 text-gray-400" />
-  }
-]
-
-const createTaskFormSchema = z.object({
-  title: z
-    .string({
-      required_error: 'Título é obrigatório',
-      invalid_type_error: 'Título da tarefa deve ser um texto'
-    })
-    .trim()
-    .min(2, {
-      message: 'Título deve ter no mínimo 2 caracteres'
-    })
-    .max(100, {
-      message: 'Título deve ter no máximo 100 caracteres'
-    }),
-  description: z
-    .string({
-      required_error: 'Descrição é obrigatória',
-      invalid_type_error: 'Descrição da tarefa deve ser um texto'
-    })
-    .trim()
-    .min(2, {
-      message: 'Descrição deve ter no mínimo 2 caracteres'
-    })
-    .max(1000, {
-      message: 'Descrição deve ter no máximo 1000 caracteres'
-    }),
-  priority: z
-    .enum(['URGENT', 'HIGH', 'NORMAL', 'LOW', ''], {
-      invalid_type_error: 'Prioridade inválida',
-      required_error: 'Prioridade inválida'
-    })
-    .optional()
-    .transform((value) => {
-      if (value === '') {
-        return undefined
-      }
-
-      return value
-    })
-})
-
-type CreateTaskFormSchema = z.infer<typeof createTaskFormSchema>
-
 export function FormCreateTask() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -111,8 +43,8 @@ export function FormCreateTask() {
 
   const { createTaskMutation, isTaskMutationLoading } = useTaskMutations()
 
-  const form = useForm<CreateTaskFormSchema>({
-    resolver: zodResolver(createTaskFormSchema),
+  const form = useForm<TaskFormSchema>({
+    resolver: zodResolver(taskFormSchema),
     defaultValues: {
       title: '',
       description: '',
@@ -125,7 +57,7 @@ export function FormCreateTask() {
   const isDisabled =
     !watch('title') || !watch('description') || isTaskMutationLoading
 
-  async function handleCreateTask(data: CreateTaskFormSchema) {
+  async function handleCreateTask(data: TaskFormSchema) {
     try {
       const { title, description, priority } = data
 
@@ -228,13 +160,21 @@ export function FormCreateTask() {
                     </FormControl>
 
                     <SelectContent>
-                      {taskPriorities.map((priority) => (
+                      {taskPrioritiesSelect.map((priority) => (
                         <Fragment key={priority.value}>
                           {priority.value === '' && <Separator />}
 
                           <SelectItem value={priority.value}>
                             <span className="flex items-center gap-3">
-                              {priority.icon}
+                              {priority.value === '' ? (
+                                <FlagOff
+                                  className={cn('h-4 w-4', priority.color)}
+                                />
+                              ) : (
+                                <Flag
+                                  className={cn('h-4 w-4', priority.color)}
+                                />
+                              )}
                               {priority.text}
                             </span>
                           </SelectItem>

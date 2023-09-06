@@ -21,7 +21,7 @@ const priorities = {
     color: 'text-cyan-600 dark:text-cyan-400'
   },
   LOW: {
-    text: 'Urgente',
+    text: 'Baixa',
     color: 'text-gray-500 dark:text-gray-200'
   }
 }

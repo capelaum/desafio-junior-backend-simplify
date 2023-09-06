@@ -1,5 +1,6 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { taskSchema } from '@/lib/tasks/schemas'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -33,34 +34,6 @@ export async function DELETE(
   })
 }
 
-const updateTaskSchema = z.object({
-  title: z
-    .string({
-      required_error: 'Título é obrigatório',
-      invalid_type_error: 'Título da tarefa deve ser um texto'
-    })
-    .trim()
-    .min(2, {
-      message: 'Título deve ter no mínimo 2 caracteres'
-    })
-    .max(100, {
-      message: 'Título deve ter no máximo 100 caracteres'
-    }),
-  description: z
-    .string({
-      required_error: 'Descrição é obrigatória',
-      invalid_type_error: 'Descrição da tarefa deve ser um texto'
-    })
-    .trim()
-    .min(2, {
-      message: 'Descrição deve ter no mínimo 2 caracteres'
-    })
-    .max(1000, {
-      message: 'Descrição deve ter no máximo 1000 caracteres'
-    }),
-  priority: z.enum(['URGENT', 'HIGH', 'NORMAL', 'LOW']).optional()
-})
-
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
@@ -82,7 +55,7 @@ export async function PUT(
 
   const body = await req.json()
 
-  const { title, description, priority } = updateTaskSchema.parse({
+  const { title, description, priority } = taskSchema.parse({
     title: body.title,
     description: body.description,
     priority: body.priority
