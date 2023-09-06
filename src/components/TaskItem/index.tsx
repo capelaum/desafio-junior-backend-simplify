@@ -46,7 +46,7 @@ export function TaskItem({ task }: TaskItemProps) {
           </Label>
         </div>
 
-        <TaskItemActions priority={task.priority} />
+        <TaskItemActions task={task} />
       </div>
 
       <div

@@ -1,5 +1,7 @@
+import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { Flag, PenSquare, Trash2 } from 'lucide-react'
+import { Task } from '.'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '../ui/tooltip'
+import { toast } from '../ui/use-toast'
 
 const priorities = {
   URGENT: {
@@ -38,25 +41,45 @@ const priorities = {
   }
 }
 
-type Priority = 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW' | null
+type Priority = keyof typeof priorities | null
 
 interface TaskItemActionsProps {
-  priority: Priority
+  task: Task
 }
 
-export function TaskItemActions({ priority }: TaskItemActionsProps) {
+export function TaskItemActions({ task }: TaskItemActionsProps) {
+  async function handleDeleteTask() {
+    try {
+      const response = await api.delete(`/tasks/${task.id}`)
+
+      if (response.status === 204) {
+        toast({
+          title: '✅ Tarefa excluída com sucesso!'
+        })
+      }
+    } catch (error) {
+      console.error('💥 ~ error:', error)
+
+      toast({
+        title: '❌ Ocorreu um erro ao excluir a tarefa',
+        description: 'Por favor tente novamente mais tarde',
+        variant: 'destructive'
+      })
+    }
+  }
+
   return (
     <div className="flex items-center gap-1 rounded-md">
-      {priority && (
+      {task.priority && (
         <TooltipProvider>
           <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
               <Flag
-                className={cn('mr-2 h-4 w-4', priorities[priority].color)}
+                className={cn('mr-2 h-4 w-4', priorities[task.priority].color)}
               />
             </TooltipTrigger>
 
-            <TooltipContent>{priorities[priority].text}</TooltipContent>
+            <TooltipContent>{priorities[task.priority].text}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       )}
@@ -96,7 +119,10 @@ export function TaskItemActions({ priority }: TaskItemActionsProps) {
 
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction variant="destructive">
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => handleDeleteTask()}
+            >
               Sim, Excluir
             </AlertDialogAction>
           </AlertDialogFooter>
