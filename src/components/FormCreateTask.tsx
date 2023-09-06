@@ -129,13 +129,11 @@ export function FormCreateTask() {
     try {
       const { title, description, priority } = data
 
-      const response = await createTaskMutation.mutateAsync({
+      await createTaskMutation.mutateAsync({
         title,
         description,
         priority
       })
-
-      console.log('💥 ~ response:', response)
 
       toast({
         title: '✅ Tarefa criada com sucesso!'

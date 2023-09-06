@@ -1,4 +1,4 @@
-import { api } from '@/lib/api'
+import { useTaskMutations } from '@/lib/tasks/api'
 import { cn } from '@/lib/utils'
 import { Task } from '@/types/task'
 import { Flag, PenSquare, Trash2 } from 'lucide-react'
@@ -46,15 +46,15 @@ interface TaskItemActionsProps {
 }
 
 export function TaskItemActions({ task }: TaskItemActionsProps) {
+  const { deleteTaskMutation, isTaskMutationLoading } = useTaskMutations()
+
   async function handleDeleteTask() {
     try {
-      const response = await api.delete(`/tasks/${task.id}`)
+      await deleteTaskMutation.mutateAsync(task.id)
 
-      if (response.status === 204) {
-        toast({
-          title: '✅ Tarefa excluída com sucesso!'
-        })
-      }
+      toast({
+        title: '✅ Tarefa excluída com sucesso!'
+      })
     } catch (error) {
       console.error('💥 ~ error:', error)
 
@@ -120,6 +120,7 @@ export function TaskItemActions({ task }: TaskItemActionsProps) {
             <AlertDialogAction
               variant="destructive"
               onClick={() => handleDeleteTask()}
+              disabled={isTaskMutationLoading}
             >
               Sim, Excluir
             </AlertDialogAction>

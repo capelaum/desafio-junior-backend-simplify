@@ -64,8 +64,34 @@ export function useTaskMutations() {
     }
   })
 
+  const deleteTaskMutation = useMutation({
+    mutationFn: async (taskId: string) => {
+      setIsTaskMutationLoading(true)
+
+      const response = await api.delete(`/tasks/${taskId}`)
+
+      if (response.status !== 204) {
+        throw new Error('Error deleting task')
+      }
+
+      const { data } = response
+
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['tasks'])
+    },
+    onError: (error) => {
+      console.error('💥 ~ error:', error)
+    },
+    onSettled: () => {
+      setIsTaskMutationLoading(false)
+    }
+  })
+
   return {
     createTaskMutation,
+    deleteTaskMutation,
     isTaskMutationLoading,
     setIsTaskMutationLoading
   }
