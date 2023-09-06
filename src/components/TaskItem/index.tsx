@@ -22,7 +22,7 @@ export function TaskItem({ task }: TaskItemProps) {
       )}
       onClick={() => setIsExpanded((isExpanded) => !isExpanded)}
     >
-      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+      <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <CheckTask task={task} />
 
         <div className="flex items-center gap-1 rounded-md">
