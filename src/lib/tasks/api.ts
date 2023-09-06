@@ -88,6 +88,33 @@ export function useTaskMutations() {
     }
   })
 
+  const checkTaskMutation = useMutation({
+    mutationFn: async ({ taskId, done }: { taskId: string; done: boolean }) => {
+      setIsTaskMutationLoading(true)
+
+      const response = await api.patch(`/tasks/${taskId}`, {
+        done
+      })
+
+      if (response.status !== 204) {
+        throw new Error('Error checking task')
+      }
+
+      const { data } = response
+
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['tasks'])
+    },
+    onError: (error) => {
+      console.error('💥 ~ error:', error)
+    },
+    onSettled: () => {
+      setIsTaskMutationLoading(false)
+    }
+  })
+
   const deleteTaskMutation = useMutation({
     mutationFn: async (taskId: string) => {
       setIsTaskMutationLoading(true)
@@ -116,6 +143,7 @@ export function useTaskMutations() {
   return {
     createTaskMutation,
     updateTaskMutation,
+    checkTaskMutation,
     deleteTaskMutation,
     isTaskMutationLoading,
     setIsTaskMutationLoading

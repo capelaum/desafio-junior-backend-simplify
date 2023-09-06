@@ -157,7 +157,7 @@ export function FormUpdateTask({ task }: FormUpdateTaskProps) {
       console.error('💥 ~ error:', error)
 
       toast({
-        title: '❌ Ocorreu um erro ao criar a tarefa',
+        title: '❌ Ocorreu um erro ao atualizar a tarefa',
         description: 'Por favor tente novamente mais tarde',
         variant: 'destructive'
       })
