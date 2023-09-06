@@ -12,20 +12,20 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen">
-      <div className="relative flex items-center justify-center py-20">
+      <header className="relative flex items-center justify-center py-20">
         <h1 className="flex scroll-m-20 items-center gap-3 text-3xl font-extrabold tracking-tight lg:text-4xl">
           <CheckCheck className="h-8 w-8" />
-          Symplify To-Do
+          Symplify ToDo
         </h1>
         <div className="absolute right-4 top-4 z-10">
           <ButtonToggleTheme />
         </div>
-      </div>
+      </header>
 
       <Separator />
 
       <div className="container py-6">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row">
+        <section className="flex flex-col justify-between gap-4 sm:flex-row">
           {session ? (
             <>
               <AvatarProfile />
@@ -34,7 +34,7 @@ export default async function Home() {
           ) : (
             <ButtonSignIn />
           )}
-        </div>
+        </section>
 
         {!session && (
           <section className="mt-12 flex flex-col items-center">

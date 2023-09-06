@@ -1,11 +1,10 @@
 'use client'
 
-import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
 import { Task } from '@/types/task'
 import { useState } from 'react'
-import { Label } from '../ui/label'
 import { AlertDialogDeleteTask } from './AlertDialogDeleteTask'
+import { CheckTask } from './CheckTask'
 import { FormUpdateTask } from './FormUpdateTask'
 import { TooltipFlag } from './TooltipFlag'
 
@@ -25,25 +24,11 @@ export function TaskItem({ task }: TaskItemProps) {
       onClick={() => setIsExpanded((isExpanded) => !isExpanded)}
     >
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-        <div
-          className="peer flex items-center gap-3"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Checkbox id={task.id} checked={task.done} />
-
-          <Label
-            htmlFor={task.id}
-            className="text-md pt-0.5 hover:cursor-pointer peer-data-[state='checked']:line-through"
-          >
-            {task.title}
-          </Label>
-        </div>
+        <CheckTask task={task} />
 
         <div className="flex items-center gap-1 rounded-md">
           {task.priority && <TooltipFlag priority={task.priority} />}
-
           <FormUpdateTask task={task} />
-
           <AlertDialogDeleteTask taskId={task.id} />
         </div>
       </div>
