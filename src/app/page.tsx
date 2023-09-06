@@ -3,7 +3,6 @@ import { ButtonSignIn } from '@/components/ButtonSignIn'
 import { ButtonToggleTheme } from '@/components/ButtonToggleTheme'
 import { FormCreateTask } from '@/components/FormCreateTask'
 import { TaskList } from '@/components/TaskList'
-import { Separator } from '@/components/ui/separator'
 import { getAuthSession } from '@/lib/auth'
 import { CheckCheck, LogIn } from 'lucide-react'
 
@@ -12,20 +11,17 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen">
-      <header className="relative flex items-center justify-center py-20">
-        <h1 className="flex scroll-m-20 items-center gap-3 text-3xl font-extrabold tracking-tight lg:text-4xl">
-          <CheckCheck className="h-8 w-8" />
-          Symplify ToDo
-        </h1>
-        <div className="absolute right-4 top-4 z-10">
+      <div className="container flex flex-col gap-12 pb-6 pt-10">
+        <header className="flex items-center justify-between">
+          <h1 className="flex scroll-m-20 items-center gap-3 text-2xl font-extrabold tracking-tight sm:text-3xl lg:text-4xl">
+            <CheckCheck className="h-8 w-8" />
+            Symplify ToDo
+          </h1>
+
           <ButtonToggleTheme />
-        </div>
-      </header>
+        </header>
 
-      <Separator />
-
-      <div className="container py-6">
-        <section className="flex flex-col justify-between gap-4 sm:flex-row">
+        <section className="flex flex-col justify-between gap-6 sm:flex-row">
           {session ? (
             <>
               <AvatarProfile user={session.user} />
@@ -37,7 +33,7 @@ export default async function Home() {
         </section>
 
         {!session && (
-          <section className="mt-12 flex flex-col items-center">
+          <section className="flex flex-col items-center">
             <LogIn className="mb-6 h-16 w-16 text-muted-foreground" />
 
             <span className="text-center text-sm font-semibold text-muted-foreground md:text-lg">

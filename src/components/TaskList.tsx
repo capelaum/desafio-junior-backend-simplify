@@ -14,22 +14,18 @@ export function TaskList() {
   }
 
   return (
-    <>
-      <section className="mt-8 flex flex-col">
-        <div className="flex flex-col justify-between gap-5 sm:flex-row">
-          <span className="flex items-center gap-3 font-medium text-violet-500 dark:text-violet-400">
-            Tarefas criadas
-            <Badge variant="secondary">{data?.tasks.length ?? 0}</Badge>
-          </span>
+    <section className="flex flex-col">
+      <div className="flex flex-col justify-between gap-5 sm:flex-row">
+        <span className="flex items-center gap-3 font-medium text-violet-500 dark:text-violet-400">
+          Tarefas criadas
+          <Badge variant="secondary">{data?.tasks.length ?? 0}</Badge>
+        </span>
 
-          <span className="flex items-center gap-3 font-medium text-violet-500 dark:text-violet-400">
-            Concluídas
-            <Badge variant="secondary">
-              {data?.numberOfCompletedTasks ?? 0}
-            </Badge>
-          </span>
-        </div>
-      </section>
+        <span className="flex items-center gap-3 font-medium text-violet-500 dark:text-violet-400">
+          Concluídas
+          <Badge variant="secondary">{data?.numberOfCompletedTasks ?? 0}</Badge>
+        </span>
+      </div>
 
       <Separator className="mt-4" />
 
@@ -47,9 +43,9 @@ export function TaskList() {
         </section>
       )}
 
-      <section className="mt-6 flex flex-col items-center gap-2">
+      <section className="mt-4 flex flex-col items-center gap-3">
         {data?.tasks.map((task) => <TaskItem key={task.id} task={task} />)}
       </section>
-    </>
+    </section>
   )
 }

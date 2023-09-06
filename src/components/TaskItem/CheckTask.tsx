@@ -47,7 +47,7 @@ export function CheckTask({ task }: CheckTasProps) {
 
       <Label
         htmlFor={task.id}
-        className="text-md pt-0.5 transition-all duration-200 ease-in-out hover:cursor-pointer group-hover:text-violet-400 peer-data-[state='checked']:line-through"
+        className="text-md pt-0.5 font-semibold transition-all duration-200 ease-in-out hover:cursor-pointer  peer-data-[state='checked']:line-through"
       >
         {task.title}
       </Label>
