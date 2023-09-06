@@ -8,4 +8,13 @@ export type Task = {
   priority: Priority
 }
 
-type CreateTaskRequest = Omit<Task, 'id' | 'done'>
+export type CreateTaskRequest = Omit<Task, 'id' | 'done'>
+
+export type UpdateTaskRequest = CreateTaskRequest & {
+  taskId: string
+}
+
+export type FetchTasksResponse = {
+  tasks: Task[]
+  numberOfCompletedTasks: number
+}

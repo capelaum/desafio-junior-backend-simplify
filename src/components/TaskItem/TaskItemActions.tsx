@@ -1,7 +1,8 @@
 import { useTaskMutations } from '@/lib/tasks/api'
 import { cn } from '@/lib/utils'
 import { Task } from '@/types/task'
-import { Flag, PenSquare, Trash2 } from 'lucide-react'
+import { Flag, Trash2 } from 'lucide-react'
+import { FormUpdateTask } from '../FormUpdateTask'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -82,14 +83,7 @@ export function TaskItemActions({ task }: TaskItemActionsProps) {
         </TooltipProvider>
       )}
 
-      <Button
-        variant="ghost"
-        size="icon"
-        title="Editar"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <PenSquare className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-      </Button>
+      <FormUpdateTask task={task} />
 
       <AlertDialog>
         <AlertDialogTrigger asChild>

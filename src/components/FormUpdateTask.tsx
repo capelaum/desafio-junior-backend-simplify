@@ -1,9 +1,10 @@
 'use client'
 
 import { useTaskMutations } from '@/lib/tasks/api'
+import { Task } from '@/types/task'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Ban, Flag, Plus } from 'lucide-react'
-import { Fragment, useState } from 'react'
+import { Ban, Flag, PenSquare } from 'lucide-react'
+import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from './ui/button'
@@ -62,7 +63,7 @@ const taskPriorities = [
   }
 ]
 
-const createTaskFormSchema = z.object({
+const updateTaskFormSchema = z.object({
   title: z
     .string({
       required_error: 'Título é obrigatório',
@@ -102,41 +103,52 @@ const createTaskFormSchema = z.object({
     })
 })
 
-type CreateTaskFormSchema = z.infer<typeof createTaskFormSchema>
+type UpdateTaskFormSchema = z.infer<typeof updateTaskFormSchema>
 
-export function FormCreateTask() {
+interface FormUpdateTaskProps {
+  task: Task
+}
+
+export function FormUpdateTask({ task }: FormUpdateTaskProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const { toast } = useToast()
 
-  const { createTaskMutation, isTaskMutationLoading } = useTaskMutations()
+  const { updateTaskMutation, isTaskMutationLoading } = useTaskMutations()
 
-  const form = useForm<CreateTaskFormSchema>({
-    resolver: zodResolver(createTaskFormSchema),
+  const form = useForm<UpdateTaskFormSchema>({
+    resolver: zodResolver(updateTaskFormSchema),
     defaultValues: {
-      title: '',
-      description: '',
-      priority: undefined
+      title: task.title,
+      description: task.description,
+      priority: task.priority ?? undefined
     }
   })
 
-  const { watch, reset } = form
+  const { watch, reset, setValue } = form
+
+  useEffect(() => {
+    setValue('title', task.title)
+    setValue('description', task.description)
+    setValue('priority', task.priority ?? undefined)
+  }, [task, setValue])
 
   const isDisabled =
     !watch('title') || !watch('description') || isTaskMutationLoading
 
-  async function handleCreateTask(data: CreateTaskFormSchema) {
+  async function handleUpdateTask(data: UpdateTaskFormSchema) {
     try {
       const { title, description, priority } = data
 
-      await createTaskMutation.mutateAsync({
+      await updateTaskMutation.mutateAsync({
+        taskId: task.id,
         title,
         description,
         priority
       })
 
       toast({
-        title: '✅ Tarefa criada com sucesso!'
+        title: '✅ Tarefa atualizada com sucesso!'
       })
 
       reset()
@@ -155,20 +167,24 @@ export function FormCreateTask() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" onClick={() => setIsDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Criar tarefa
+        <Button
+          variant="ghost"
+          size="icon"
+          title="Editar"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <PenSquare className="h-4 w-4 text-gray-600 dark:text-gray-400" />
         </Button>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent onClick={(e) => e.stopPropagation()}>
         <DialogHeader>
-          <DialogTitle>Criar nova tarefa</DialogTitle>
+          <DialogTitle>Editar tarefa</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleCreateTask)}
+            onSubmit={form.handleSubmit(handleUpdateTask)}
             className="w-full space-y-6"
           >
             <FormField
@@ -242,8 +258,12 @@ export function FormCreateTask() {
               )}
             />
 
-            <Button type="submit" disabled={isDisabled}>
-              Criar tarefa
+            <Button
+              type="submit"
+              disabled={isDisabled}
+              onClick={(e) => e.stopPropagation()}
+            >
+              Editar tarefa
             </Button>
           </form>
         </Form>

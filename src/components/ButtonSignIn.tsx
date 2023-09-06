@@ -20,7 +20,8 @@ export function ButtonSignIn() {
         description: 'Seja bem-vindo ao Simplify ToDo'
       })
     } catch (error) {
-      console.log('💥 ~ error:', error)
+      console.error('💥 ~ error:', error)
+
       toast({
         title: 'Error',
         description: 'Ocorreu um erro ao fazer login com o github',

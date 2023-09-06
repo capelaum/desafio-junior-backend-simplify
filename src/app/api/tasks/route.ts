@@ -3,9 +3,8 @@ import { db } from '@/lib/db'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-export async function GET(req: Request) {
+export async function GET() {
   const session = await getAuthSession()
-  console.log('💥 ~ GET session:', session)
 
   if (!session || !session.user) {
     return NextResponse.json(
@@ -93,12 +92,12 @@ export async function POST(req: Request) {
     )
   }
 
-  const request = await req.json()
+  const body = await req.json()
 
   const { title, description, priority } = createTaskSchema.parse({
-    title: request.title,
-    description: request.description,
-    priority: request.priority
+    title: body.title,
+    description: body.description,
+    priority: body.priority
   })
 
   const createdTask = await db.task.create({
