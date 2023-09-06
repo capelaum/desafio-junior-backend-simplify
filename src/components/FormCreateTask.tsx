@@ -176,7 +176,10 @@ export function FormCreateTask() {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Título*</FormLabel>
+                  <FormLabel>
+                    Título
+                    <span className="ml-1 text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Título da tarefa" {...field} />
                   </FormControl>
@@ -191,7 +194,10 @@ export function FormCreateTask() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Descrição*</FormLabel>
+                  <FormLabel>
+                    Descrição
+                    <span className="ml-1 text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       className="max-h-[400px] min-h-[100px]"

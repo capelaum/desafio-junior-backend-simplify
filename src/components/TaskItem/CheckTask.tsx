@@ -31,7 +31,7 @@ export function CheckTask({ task }: CheckTasProps) {
 
   return (
     <div
-      className="peer flex items-center gap-3"
+      className="peer inline-flex max-w-full items-center gap-3 sm:max-w-[80%]"
       onClick={(e) => e.stopPropagation()}
     >
       {isTaskMutationLoading ? (
@@ -47,7 +47,7 @@ export function CheckTask({ task }: CheckTasProps) {
 
       <Label
         htmlFor={task.id}
-        className="text-md pt-0.5 font-semibold transition-all duration-200 ease-in-out hover:cursor-pointer  peer-data-[state='checked']:line-through"
+        className="text-md line-clamp-1 text-ellipsis pt-0.5 font-semibold transition-all duration-200  ease-in-out hover:cursor-pointer peer-data-[state='checked']:line-through"
       >
         {task.title}
       </Label>
