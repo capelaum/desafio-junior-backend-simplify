@@ -28,7 +28,7 @@ export default async function Home() {
         <section className="flex flex-col justify-between gap-4 sm:flex-row">
           {session ? (
             <>
-              <AvatarProfile />
+              <AvatarProfile user={session.user} />
               <FormCreateTask />
             </>
           ) : (

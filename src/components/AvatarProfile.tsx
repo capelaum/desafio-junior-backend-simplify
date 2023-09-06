@@ -2,16 +2,22 @@
 
 import { getUserNameInitials } from '@/lib/utils'
 import { LogOut } from 'lucide-react'
-import { signOut, useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 import { toast } from './ui/use-toast'
 
-export function AvatarProfile() {
-  const [isLoading, setIsLoading] = useState(false)
+interface AvatarProfileProps {
+  user: {
+    name: string
+    email: string
+    avatar_url: string | null
+  }
+}
 
-  const session = useSession()
+export function AvatarProfile({ user }: AvatarProfileProps) {
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleLogout = async () => {
     setIsLoading(true)
@@ -39,20 +45,14 @@ export function AvatarProfile() {
   return (
     <div className="flex items-center gap-3">
       <Avatar>
-        <AvatarImage src={session?.data?.user?.avatar_url} />
-        <AvatarFallback>
-          {getUserNameInitials(session?.data?.user?.name ?? '')}
-        </AvatarFallback>
+        {user.avatar_url && <AvatarImage src={user.avatar_url} />}
+        <AvatarFallback>{getUserNameInitials(user.name ?? '')}</AvatarFallback>
       </Avatar>
 
       <div className="flex flex-col gap-1">
-        <span className="text-sm text-foreground">
-          {session?.data?.user?.name}
-        </span>
+        <span className="text-sm text-foreground">{user.name}</span>
 
-        <span className="text-xs text-muted-foreground">
-          {session?.data?.user?.email}
-        </span>
+        <span className="text-xs text-muted-foreground">{user.email}</span>
       </div>
 
       <Button
