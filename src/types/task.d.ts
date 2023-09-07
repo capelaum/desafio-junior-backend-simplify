@@ -9,7 +9,7 @@ export type Task = {
   updatedAt: string
 }
 
-export type CreateTaskRequest = Omit<Task, 'id' | 'done'>
+export type CreateTaskRequest = Omit<Task, 'id' | 'done' | 'updatedAt'>
 
 export type UpdateTaskRequest = CreateTaskRequest & {
   taskId: string
