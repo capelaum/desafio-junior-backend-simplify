@@ -6,6 +6,7 @@ export type Task = {
   description: string
   done: boolean
   priority: Priority
+  updatedAt: string
 }
 
 export type CreateTaskRequest = Omit<Task, 'id' | 'done'>

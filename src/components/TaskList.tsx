@@ -44,7 +44,7 @@ export function TaskList() {
         </section>
       )}
 
-      <section className="mt-4 flex flex-col items-center gap-3">
+      <section className="mt-4 flex flex-col items-center gap-5">
         {data?.tasks.map((task) => <TaskItem key={task.id} task={task} />)}
       </section>
     </section>

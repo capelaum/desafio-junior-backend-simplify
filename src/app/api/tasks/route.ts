@@ -1,6 +1,7 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { taskSchema } from '@/lib/tasks/schemas'
+import { formatDatetimeToBrazilianFormat } from '@/lib/utils'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -27,7 +28,7 @@ export async function GET() {
       }
     })
   ).map((task) => {
-    const { id, user_id, title, description, done, priority } = task
+    const { id, user_id, title, description, done, priority, updated_at } = task
 
     return {
       id: id,
@@ -35,7 +36,8 @@ export async function GET() {
       title,
       description,
       done,
-      priority
+      priority,
+      updatedAt: formatDatetimeToBrazilianFormat(updated_at)
     }
   })
 
