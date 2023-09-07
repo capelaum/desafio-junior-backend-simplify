@@ -44,7 +44,7 @@ export function TaskList() {
         </section>
       )}
 
-      <section className="mt-4 flex flex-col items-center gap-5">
+      <section className="mt-4 flex flex-col items-center gap-3">
         {data?.tasks.map((task) => <TaskItem key={task.id} task={task} />)}
       </section>
     </section>
@@ -68,7 +68,7 @@ export function TaskListSkeleton() {
 
       <Separator className="mt-4" />
 
-      <section className="mt-4 flex flex-col items-center gap-3">
+      <section className="mt-4 flex flex-col items-center gap-4">
         <Skeleton className="h-[58px] w-full animate-pulse rounded-lg shadow-md" />
         <Skeleton className="h-[58px] w-full animate-pulse rounded-lg shadow-md" />
         <Skeleton className="h-[58px] w-full animate-pulse rounded-lg shadow-md" />
