@@ -1,6 +1,7 @@
 import { useTaskMutations } from '@/lib/tasks/api'
 import { Task } from '@/types/task'
 import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import { Checkbox } from '../ui/checkbox'
 import { Label } from '../ui/label'
 import { toast } from '../ui/use-toast'
@@ -10,14 +11,17 @@ interface CheckTasProps {
 }
 
 export function CheckTask({ task }: CheckTasProps) {
+  const [isTaskDone, setIsTaskDone] = useState(task.done)
   const { checkTaskMutation, isTaskMutationLoading } = useTaskMutations()
 
   async function handleCheckTask() {
     try {
       await checkTaskMutation.mutateAsync({
         taskId: task.id,
-        done: !task.done
+        done: !isTaskDone
       })
+
+      setIsTaskDone((done) => !done)
     } catch (error) {
       console.error('💥 ~ error:', error)
 
@@ -39,7 +43,7 @@ export function CheckTask({ task }: CheckTasProps) {
       ) : (
         <Checkbox
           id={task.id}
-          checked={task.done}
+          checked={isTaskDone}
           disabled={isTaskMutationLoading}
           onCheckedChange={handleCheckTask}
         />
