@@ -34,7 +34,7 @@ export function ButtonSignIn() {
 
   return (
     <Button
-      variant="outline"
+      variant="default"
       title="Entrar com Github"
       onClick={handleLogin}
       disabled={isLoading}

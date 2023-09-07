@@ -4,6 +4,7 @@ import { ButtonToggleTheme } from '@/components/ButtonToggleTheme'
 import { FormCreateTask } from '@/components/FormCreateTask'
 import { TaskList } from '@/components/TaskList'
 import { getAuthSession } from '@/lib/auth'
+import { cn } from '@/lib/utils'
 import { CheckCheck, LogIn } from 'lucide-react'
 
 export default async function Home() {
@@ -21,7 +22,12 @@ export default async function Home() {
           <ButtonToggleTheme />
         </header>
 
-        <section className="flex flex-col justify-between gap-6 sm:flex-row">
+        <section
+          className={cn(
+            'flex flex-col justify-center gap-6 sm:flex-row',
+            session && 'justify-between'
+          )}
+        >
           {session ? (
             <>
               <AvatarProfile user={session.user} />
@@ -37,11 +43,11 @@ export default async function Home() {
             <LogIn className="mb-6 h-16 w-16 text-muted-foreground" />
 
             <span className="text-center text-sm font-semibold text-muted-foreground md:text-lg">
-              Faça login para gerenciar suas tarefas
+              Faça login para gerenciar suas tarefas.
             </span>
 
             <span className="text-center text-sm text-muted-foreground md:text-lg">
-              Você pode fazer login com sua conta do github
+              Você pode fazer login com sua conta do Github.
             </span>
           </section>
         )}
