@@ -80,10 +80,6 @@ export function FormUpdateTask({ task }: FormUpdateTaskProps) {
       })
 
       toast({
-        title: '✅ Tarefa atualizada com sucesso!'
-      })
-
-      toast({
         title: 'Tarefa atualizada!',
         description: (
           <div className="mt-2 flex items-center gap-2 ">
