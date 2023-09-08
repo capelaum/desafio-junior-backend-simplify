@@ -25,7 +25,7 @@ Repositório para ser usado pelos candidatos à vaga de Desenvolvedor Júnior Ba
 
 ## Como Executar
 
-Instalando as dependências do projeto, executando o comando na raiz do projeto:
+Instale as dependências, executando o comando na raiz do projeto:
 
 ```bash
 npm i
@@ -84,6 +84,14 @@ Para auxílio, segue um tutorial com passo a passo: https://scribehow.com/shared
 ### Observações
 
 Caso sua aplicação esteja sendo executada em uma porta diferente, deve-se alterar as variáveis conforme a porta utilizada.
+
+### Executando
+
+Para executar a aplicação localmente, execute o seguinte comando na raiz do projeto:
+
+```bash
+npm run dev
+```
 
 ## Funcionalidades
 
