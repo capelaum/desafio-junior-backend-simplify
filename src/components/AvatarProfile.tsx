@@ -33,8 +33,8 @@ export function AvatarProfile({ user }: AvatarProfileProps) {
       console.error('💥 ~ error:', error)
 
       toast({
-        title: 'Error',
-        description: 'Ocorreu um erro ao fazer login com o Github',
+        title: 'Erro',
+        description: 'Ocorreu um erro ao fazer logout com o Github',
         variant: 'destructive'
       })
     } finally {

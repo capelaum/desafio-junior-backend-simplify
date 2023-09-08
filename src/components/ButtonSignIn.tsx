@@ -23,7 +23,7 @@ export function ButtonSignIn() {
       console.error('💥 ~ error:', error)
 
       toast({
-        title: 'Error',
+        title: 'Erro',
         description: 'Ocorreu um erro ao fazer login com o github',
         variant: 'destructive'
       })
