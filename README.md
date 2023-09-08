@@ -100,6 +100,7 @@ Caso sua aplicação esteja sendo executada em uma porta diferente, deve-se alte
 - [Typescript][typescript]
 - [Prisma][prisma]
 - [NextAuth.js][nextauth]
+- [React Hook Form][react_hook_form]
 - [TailwindCSS][tailwindcss]
 - [Shadcn/ui][shadcn_ui]
 - [Radix UI][radix]
@@ -110,6 +111,7 @@ Caso sua aplicação esteja sendo executada em uma porta diferente, deve-se alte
 [typescript]: https://www.typescriptlang.org
 [prisma]: https://www.prisma.io
 [nextauth]: https://next-auth.js.org
+[react_hook_form]: https://react-hook-form.com
 [tailwindcss]: https://tailwindcss.com
 [shadcn_ui]: https://ui.shadcn.com
 [radix]: https://www.radix-ui.com
